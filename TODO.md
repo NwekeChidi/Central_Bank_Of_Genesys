@@ -8,8 +8,8 @@
 
 ### Primary
 ✅ Start Up app index file
-- Define .env variables
-- Connect to MongoDB
+✅ Define .env variables
+✅ Connect to MongoDB
 - Define Schema ( Admin: SubSchema { Authourization }, User: SubSchema { AccountType, Transactions, VirtualCards, Loans })
 - Implement Admin Function : Add User
 - Implement Admin Function : Delete User
