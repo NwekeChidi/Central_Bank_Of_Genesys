@@ -18,6 +18,11 @@ app.use( (error, req, res, next) => {
         err : error.message
     })
 })
+// catch unhandled Rejections
+process.on('unhandledRejection', err => {
+    console.log('unhandledRejection', err.message)
+});
+
 
 // Admin Routes
 app.use("/admin", require("./routes/adminAuth"));

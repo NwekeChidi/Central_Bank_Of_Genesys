@@ -2,6 +2,7 @@
 const { Admin } = require("./../models/admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
 require("dotenv").config();
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
@@ -12,12 +13,17 @@ const adminAuth = {};
 adminAuth.signup = async (req, res) => {
     const data = req.body;
 
+    // Validation
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) res.status(400).send({ errors: errors.array() })
+
     try {
         // hash passwords
         const salt = 15;
         let adminAccess = false;
         const passwordHash = await bcrypt.hash(data.password, salt);
-        if (data.role.toLowerCase().indexOf("manager") > 0) adminAccess = true;
+        if (data.role.toLowerCase().indexOf("manager") > 0 || data.role.toLowerCase().indexOf("chief") > 0) adminAccess = true;
         const admin = await new Admin({
             email : data.email,
             firstName : data.firstName,
