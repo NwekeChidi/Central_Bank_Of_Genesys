@@ -13,6 +13,7 @@ const adminSchema = new Schema({
     },
     email : {
         type : String,
+        unique : true,
         required : true
     },
     phone : {
@@ -23,9 +24,13 @@ const adminSchema = new Schema({
         type : String,
         required : true
     },
-    adminAccess : {
+    address : {
         type : String,
-        default : "false"
+        required : true
+    },
+    adminAccess : {
+        type : Boolean,
+        default : false
     },
     password : {
         type : String,
@@ -39,4 +44,4 @@ const adminSchema = new Schema({
     }
 })
 
-module.exports.Admin = mongoose.model("admin", adminSchema);
+exports.Admin = mongoose.model("admin", adminSchema);

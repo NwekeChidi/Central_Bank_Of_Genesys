@@ -13,6 +13,7 @@ const userSchema = new Schema({
     },
     email : {
         type : String,
+        unique : true,
         required : true
     },
     phone : {
@@ -25,6 +26,7 @@ const userSchema = new Schema({
     },
     cbg_number : {
         type : String,
+        unique : true,
         required : true
     },
     account_type : {
@@ -32,7 +34,8 @@ const userSchema = new Schema({
         default : "Savings"
     },
     account_number : {
-        type : Number
+        type : Number,
+        unique : true
     },
     account_balance : {
         type : Number,

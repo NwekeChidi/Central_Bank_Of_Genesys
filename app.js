@@ -3,7 +3,6 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-//const routes = require('./routes');
 
 // Intitialize express
 const app = express();
@@ -20,6 +19,9 @@ app.use( (error, req, res, next) => {
     })
 })
 
+// Admin Routes
+app.use("/admin", require("./routes/adminAuth"));
+
 
 
 
@@ -31,8 +33,6 @@ app.get("/ping", async (req, res) => {
     count++;
     res.status(200).send(`Server Has Recieved ${count} Pings Since Server It Started`);
 })
-
-
 // Route 404
 app.use("**", async (req, res) => {
     res.status(404).send("Route Not Found!");
