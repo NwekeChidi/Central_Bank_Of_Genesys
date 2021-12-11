@@ -11,7 +11,7 @@
 ✅ Define .env variables
 ✅ Connect to MongoDB
 ✅ Define Schema ( Admin, User: SubSchema { Transactions, VirtualCards, Loans })
-- Implement Admin Function : Authentication
+✅ Implement Admin Function : Authentication
 - Implement Admin Function : Add User
 - Implement Admin Function : Delete User
 - Implement User Function : Authentication

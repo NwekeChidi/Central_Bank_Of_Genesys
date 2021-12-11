@@ -16,14 +16,14 @@ adminAuth.signup = async (req, res) => {
     // Validation
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()) res.status(400).send({ errors: errors.array() })
+    if(!errors.isEmpty()) return res.status(400).send({ errors: errors.array() })
 
     try {
         // hash passwords
         const salt = 15;
         let adminAccess = false;
         const passwordHash = await bcrypt.hash(data.password, salt);
-        if (data.role.toLowerCase().indexOf("manager") > 0 || data.role.toLowerCase().indexOf("chief") > 0) adminAccess = true;
+        if (data.role.toLowerCase().indexOf("manager") > -1 || data.role.toLowerCase().indexOf("chief") > -1) adminAccess = true;
         const admin = await new Admin({
             email : data.email,
             firstName : data.firstName,
@@ -39,7 +39,8 @@ adminAuth.signup = async (req, res) => {
         // create token
         const token = jwt.sign(
             { admin_id : admin._id },
-            JWT_SECRET_KEY
+            JWT_SECRET_KEY,
+            { expiresIn: 60 * 10 }
         );
 
         res.status(200).send({
