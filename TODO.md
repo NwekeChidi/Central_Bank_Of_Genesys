@@ -1,12 +1,13 @@
 ## Part A
-- Initialize npm and install dependensies
-- Create Folders For Structuring Codes
+✅ Initialize npm and install dependensies
+✅ Create Folders For Structuring Codes
+✅ Add .gitignore File
 
 
 ## Part B
 
 ### Primary
-- Start Up index file
+✅ Start Up app index file
 - Define .env variables
 - Connect to MongoDB
 - Define Schema ( Admin: SubSchema { Authourization }, User: SubSchema { AccountType, Transactions, VirtualCards, Loans })
@@ -30,5 +31,7 @@
 - Implement Admin Function : Issue A Loan
 - Implement Admin Function : Disable Virtual Card
 
+
 ## Part C ( SECONDARY )
 - Build UI
+- Build All Parts With Testing
