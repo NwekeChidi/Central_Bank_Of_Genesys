@@ -42,7 +42,7 @@ adminAuth.signup = async (req, res) => {
                 token,
                 admin_id : admin._id,
                 email : admin.email,
-                fullName : admin.email,
+                fullName : admin.fullName,
                 role : admin.role,
                 adminAccess : admin.adminAccess
             }
@@ -55,6 +55,26 @@ adminAuth.signup = async (req, res) => {
 
 
 // Admin Sign In
-// adminAuth.signin = 
+adminAuth.signin = async (req, res) => {
+    const data = req.body;
+
+    try {
+        const admin = await Admin.findOne({ email : data.email });
+        if (!admin) return res.status(400).send({ message: "Invalid Email Or Password" });
+        const isValidPassword = await bcrypt.compare(data.password, admin.password);
+        if (!isValidPassword) return res.status(400).send({ message: "Invalid Email Or Password "});
+
+        const token = jwt.sign({ admin_id: admin._id }, JWT_SECRET_KEY);
+
+        res.status(200).send({
+            message: `Hello ${admin.fullName}! \n Welcome To The Admin Site Of Central Bank Of Genesys (CBG)`,
+            data : {
+                token
+            }
+        })
+    } catch (error) {
+        res.status(400).send({ message : "Unable To SignIn Admin", err: error })
+    }
+}
 
 module.exports = adminAuth;
