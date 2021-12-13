@@ -4,10 +4,10 @@ const generator = require("./../helpers/generators");
 const bcrypt = require("bcrypt"), salt = 15, password = "123456";
 const passwordHash = async (password) => { return await bcrypt.hash(password, salt)};
 
+
+// Create User
 exports.createUser = async (req, res) => {
     const data = req.body;
-
-
 
     try {
         const newUser = await new User({
@@ -34,4 +34,19 @@ exports.createUser = async (req, res) => {
         else res.status(400).send({ message: "Could Not Create User!", err: error });
     }
 
+}
+
+
+// Delete User
+exports.deleteUser = async ( req, res ) => {
+    const users = await User.findOne({ _id : req.params.user_id });
+    
+    if (!users) res.status(404).send({ message: "User Not Found!" });
+    
+    try {
+        users.remove();
+        res.status(200).send({ message: "User Deleted Successfully!" })
+    } catch (error) {
+        res.status(400).send({ message: "Could Not Delete User!", err: error })
+    }
 }
