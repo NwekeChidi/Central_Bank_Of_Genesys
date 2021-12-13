@@ -29,7 +29,8 @@ app.use("/admin", require("./routes/adminAuth"));
 app.use("/admin", require("./routes/admin"));
 
 // User Routes
-app.use("/user", require("./routes/userAuth"))
+app.use("/user", require("./routes/userAuth"));
+app.use("/user", require("./routes/user"))
 
 
 

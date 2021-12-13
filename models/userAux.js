@@ -6,19 +6,25 @@ const now = new Date();
 
 // Deposit model
 const Deposit = mongoose.model("deposit", new Schema({
+    
     user : {
         type : Schema.Types.ObjectId,
-        ref : "users",
-        required : true
+        ref : "user"
+    },
+    account_number : {
+        type : String
     },
     transcation_type : {
         type : String,
         default : "deposit"
     },
     amount : {
-        type : String,
+        type : Number,
         required : true
-    }
+    },
+    account_balance : {
+        type : Number
+    },
 },
 {
     timestamps : {
@@ -31,7 +37,7 @@ const Deposit = mongoose.model("deposit", new Schema({
 const Withdrawal = mongoose.model("withrawal", new Schema({
     user : {
         type : Schema.Types.ObjectId,
-        ref : "users"
+        ref : "user"
     },
     transcation_type : {
         type : String,
@@ -53,8 +59,7 @@ const Withdrawal = mongoose.model("withrawal", new Schema({
 const Transfer = mongoose.model("transfer", new Schema({
     user : {
         type : Schema.Types.ObjectId,
-        ref : "users",
-        required : true
+        ref : "user"
     },
     reciever_acc_no : {
         type : Number,
@@ -66,11 +71,15 @@ const Transfer = mongoose.model("transfer", new Schema({
     },
     transcation_type : {
         type : String,
-        default : "transfer"
+        enum : ["CR", "DR", "RVSL"],
+        trim : true
     },
     amount : {
         type : String,
         required : true
+    },
+    narration : {
+        type : String
     }
 },
 {
@@ -84,8 +93,7 @@ const Transfer = mongoose.model("transfer", new Schema({
 const DebitCard = mongoose.model("debit_card", new Schema({
     user : {
         type : Schema.Types.ObjectId,
-        ref : "users",
-        required : true
+        ref : "user"
     },
     card_iss : {
         type : String,
@@ -110,8 +118,7 @@ const DebitCard = mongoose.model("debit_card", new Schema({
 const CreditCard = mongoose.model("credit_card", new Schema({
     user : {
         type : Schema.Types.ObjectId,
-        ref : "users",
-        required : true
+        ref : "user"
     },
     card_iss : {
         type : String,
@@ -144,8 +151,7 @@ const CreditCard = mongoose.model("credit_card", new Schema({
 const Loan = mongoose.model("loan", new Schema({
     user : {
         type : Schema.Types.ObjectId,
-        ref : "users",
-        required : true
+        ref : "user"
     },
     collateral : {
         type : String,

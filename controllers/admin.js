@@ -19,6 +19,7 @@ exports.createUser = async (req, res) => {
             address : data.address,
             occupation : data.occupation,
             dob : data.dob,
+            gender : data.gender,
             cbg_number : generator.cbg_number(),
             account_type : data.account_type,
             account_number : generator.account_number(),

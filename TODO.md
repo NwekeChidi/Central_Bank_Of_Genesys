@@ -15,7 +15,7 @@
 ✅ Implement Admin Function : Add User ( New Means to Check If User Exists )
 ✅ Implement Admin Function : Delete User
 ✅ Implement User Function : Authentication
-- Implement User Function : Deposit Money
+✅ Implement User Function : Deposit Money
 - Implement User Function : Withdraw Money
 - Implement User Function : Transfer Funds To Other Users
 - Implement User Function : See A List Of Their Transactions
@@ -32,6 +32,7 @@
 - Implement Admin Function : Issue A Virtual Card
 - Implement Admin Function : Issue A Loan
 - Implement Admin Function : Disable Virtual Card
+- Implement Admin Function : Remove An Admin
 
 
 ## Part C ( SECONDARY )

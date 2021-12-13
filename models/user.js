@@ -35,6 +35,10 @@ const userSchema = new Schema({
         type : Date,
         required : true
     },
+    gender : {
+        type : String,
+        required : true
+    },
     cbg_number : {
         type : String,
         unique : true,
