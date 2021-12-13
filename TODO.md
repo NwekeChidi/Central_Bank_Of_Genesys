@@ -14,7 +14,7 @@
 ✅ Implement Admin Function : Authentication
 ✅ Implement Admin Function : Add User ( New Means to Check If User Exists )
 ✅ Implement Admin Function : Delete User
-- Implement User Function : Authentication
+✅ Implement User Function : Authentication
 - Implement User Function : Deposit Money
 - Implement User Function : Withdraw Money
 - Implement User Function : Transfer Funds To Other Users
