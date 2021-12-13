@@ -27,26 +27,33 @@ const userSchema = new Schema({
         type : String,
         required : true
     },
+    occupation: {
+        type : String,
+        required: true
+    },
+    dob : {
+        type : Date,
+        required : true
+    },
     cbg_number : {
         type : String,
         unique : true,
-        required : true
     },
     account_type : {
         type : String,
-        default : "Savings"
+        required : true,
     },
     account_number : {
-        type : Number,
+        type : String,
         unique : true
     },
     account_balance : {
         type : Number,
-        default : 0.00
+        required : true
     },
     virtual_card : {
         type : Schema.Types.ObjectId,
-        ref : "cards"
+        ref : "card"
     },
     transactions : {
         type : Array,
@@ -59,12 +66,15 @@ const userSchema = new Schema({
         },
         loans : {
             type : Schema.Types.ObjectId,
-            ref : "loans"
+            ref : "loan"
         }
     },
     password : {
-        type : String,
-        required : true
+        type : String
+    },
+    account_manager : {
+        type : Schema.Types.ObjectId,
+        ref : "admin",
     }
 },
 {

@@ -9,8 +9,10 @@ module.exports = () => {
             if (!token) throw new Error("Token Not Found!");
             const decoded = jwt.decode(token);
 
+            
+            if (!decoded) throw new Error("Admin Authorization Failed!");
             const admin = await Admin.findById(decoded.admin_id);
-            if (!admin) throw new Error("Admin Authorization Failed!");
+            if (!admin) throw new Error("Admin Not Registered");
 
             req.ADMIN_ID = admin._id;
             

@@ -26,6 +26,7 @@ process.on('unhandledRejection', err => {
 
 // Admin Routes
 app.use("/admin", require("./routes/adminAuth"));
+app.use("/admin", require("./routes/admin"));
 
 
 
