@@ -2,6 +2,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const date = require("date-and-time");
+const { truncate } = require("fs");
 const now = new Date();
 
 
@@ -96,6 +97,7 @@ const Card = mongoose.model("card", new Schema({
     card_iss : {
         type : String,
         enum : ["debit", "credit"],
+        required : true,
         lowercase : true,
         required : true,
         trim : true
@@ -103,8 +105,8 @@ const Card = mongoose.model("card", new Schema({
     card_type : {
         type : String,
         enum : ["visa", "verve", "mastercard", "crypty", "dollar"],
-        default : "verve",
         lowercase : true,
+        required : true,
         trim : true
     },
     is_active : {
@@ -112,11 +114,19 @@ const Card = mongoose.model("card", new Schema({
         default : true
     },
     card_number : {
-        type : String
+        type : String,
+        unique : true
+    },
+    cvv : {
+        type : String,
+        unique : true
     },
     credit_points : {
-        type : Number,
-        default : 1000
+        type : Number
+    },
+    password : {
+        type : String,
+        required : true
     },
     valid_thru : {
         type : String,
@@ -130,35 +140,34 @@ const Card = mongoose.model("card", new Schema({
 }));
 
 
-// Loan Model
-const Loan = mongoose.model("loan", new Schema({
-    user : {
-        type : Schema.Types.ObjectId,
-        ref : "user"
-    },
-    collateral : {
-        type : String,
-        required : true
-    },
-    amount : {
-        type : Number,
-        required : true
-    },
-    duration : {
-        type : Number,
-        enum : [3, 6, 9, 12, 15, 18, 21, 24, 27, 30],
-        required : true
-    }
-},
-{
-    timestamps : {
-        createdAt : "created_at"
-    }
-}));
+// // Loan Model
+// const Loan = mongoose.model("loan", new Schema({
+//     user : {
+//         type : Schema.Types.ObjectId,
+//         ref : "user"
+//     },
+//     collateral : {
+//         type : String,
+//         required : true
+//     },
+//     amount : {
+//         type : Number,
+//         required : true
+//     },
+//     duration : {
+//         type : Number,
+//         enum : [3, 6, 9, 12, 15, 18, 21, 24, 27, 30],
+//         required : true
+//     }
+// },
+// {
+//     timestamps : {
+//         createdAt : "created_at"
+//     }
+// }));
 
 module.exports = {
     BaseTransactions,
     Card,
-    Loan,
     Transfer
 }

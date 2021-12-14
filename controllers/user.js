@@ -1,10 +1,13 @@
 // Import Dependencies
 const { User } = require("./../models/user");
+const generator = require("./../helpers/generators");
+const bcrypt = require("bcrypt");
 const { 
     BaseTransactions,
     Card,
-    Loan,
+    //Loan,
     Transfer } = require("./../models/userAux");
+
 
 
 // Deposit / Withdraw Money
@@ -120,3 +123,41 @@ exports.getTransactions = async ( req, res ) => {
     }
 }
 
+
+//// Secondary Functions
+exports.getCard = async ( req, res ) => {
+    const data = req.body;
+    const user = await User.findOne({ _id : req.USER_ID });
+    if (!user) return res.status(400).send({ message: "User Not Found!" });
+
+    const cards = await Card.findOne({ _id : user.virtual_card });
+    if (cards.is_active) return res.status(400).send({ message: "You Already Have An Active Card" });
+
+    if (data.password.length != 4 ) return res.status(401).send({ message : "Password Should Be Only Numbers And Must Be Four In Length!" });
+    const salt = 10;
+    const passwordHash = async (password) => { return await bcrypt.hash(password, salt)};
+    
+    try {
+        const newCard = await new Card({
+            user : req.USER_ID,
+            card_iss : data.card_iss,
+            card_type : data.card_type,
+            credit_points : data.credit_points || null,
+            card_number : generator.card_number(data.card_type),
+            cvv : generator.cvv(),
+            password : await passwordHash(data.password)
+        }).save();
+
+        user.virtual_card = newCard._id;
+        const updatedUser = await User.findOneAndUpdate(
+            { _id : req.USER_ID },
+            { $set : user });
+
+        if (!updatedUser) return res.status(400).send({ message : "Could Not Update Account"});
+
+        res.status(200).send({ message: "Virtual Card Issuance Successful!", data: newCard });
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({ message: "Could Not Issue Card", err: error })
+    }
+}

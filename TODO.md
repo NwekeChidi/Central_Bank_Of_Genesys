@@ -10,7 +10,7 @@
 ✅ Start Up app index file
 ✅ Define .env variables
 ✅ Connect to MongoDB
-✅ Define Schema ( Admin, User: SubSchema { Transactions, VirtualCards, Loans })
+✅ Define Schema ( Admin, User: SubSchema { Transactions, VirtualCards })
 ✅ Implement Admin Function : Authentication
 ✅ Implement Admin Function : Add User ( New Means to Check If User Exists )
 ✅ Implement Admin Function : Delete User
@@ -25,8 +25,7 @@
 ### Secondary
 ✅ Define Schema For Virtual Cards ( Credit/Debit : Master, Dollar, Crypty, Visa and Verve )
 ✅ Define Schema For Loans
-- Implement User Function : Get A Virtual Card
-- Implement User Function : Get A Loan
+✅ Implement User Function : Get A Virtual Card
 - Implement User Function : Disable Virtual Card
 - Implement Admin Function : Disable Virtual Card
 - Implement Admin Function : Remove An Admin
