@@ -7,7 +7,8 @@ const userAuth = require("./../middlewares/userAuth");
 router.patch("/base_transactions", userAuth(), UserController.base_transactions);
 router.patch("/transfer", userAuth(), UserController.transfer);
 router.get("/history", userAuth(), UserController.getTransactions);
-router.patch("/get_card", userAuth(), UserController.getCard)
+router.patch("/get_card", userAuth(), UserController.getCard);
+router.put("/disable", userAuth(), UserController.disableCard);
 
 
 

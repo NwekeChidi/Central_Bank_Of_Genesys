@@ -125,6 +125,7 @@ exports.getTransactions = async ( req, res ) => {
 
 
 //// Secondary Functions
+// Get A Virtual Card
 exports.getCard = async ( req, res ) => {
     const data = req.body;
     const user = await User.findOne({ _id : req.USER_ID });
@@ -159,5 +160,31 @@ exports.getCard = async ( req, res ) => {
     } catch (error) {
         console.log(error)
         res.status(400).send({ message: "Could Not Issue Card", err: error })
+    }
+}
+
+
+// Disable A Virtual Card 
+exports.disableCard = async (req, res) => {
+
+    const user = await User.findById({ _id : req.USER_ID });
+    if (!user) return res.status(400).send({ message: "User Not Found" });
+
+    if(!user.virtual_card) return res.status(400).send({ message: "No Virtual Card Under User" })
+    const card = await Card.findById({ _id : user.virtual_card })
+    if (!card) return res.status(400).send({ message: "Card Not Found" });
+
+    try {
+        card.is_active = false;
+
+        const updatedCard = await Card.findOneAndUpdate(
+            { _id : card._id },
+            { $set : card });
+
+        if (!updatedCard) return res.status(400).send({ message: "Could Not Update Card"});
+
+        res.status(200).send({ message : "Card Successfully Disabled!" });
+    } catch (error) {
+        res.status(400).send({ message: "Could Not Disable Card" });
     }
 }

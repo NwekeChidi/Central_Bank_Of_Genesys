@@ -26,7 +26,7 @@
 ✅ Define Schema For Virtual Cards ( Credit/Debit : Master, Dollar, Crypty, Visa and Verve )
 ✅ Define Schema For Loans
 ✅ Implement User Function : Get A Virtual Card
-- Implement User Function : Disable Virtual Card
+✅ Implement User Function : Disable Virtual Card
 - Implement Admin Function : Disable Virtual Card
 - Implement Admin Function : Remove An Admin
 
