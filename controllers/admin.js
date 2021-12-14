@@ -1,5 +1,6 @@
 // Import Dependencies
 const { User } = require("./../models/user");
+const { Admin } = require("./../models/admin");
 const generator = require("./../helpers/generators");
 const { Transfer, Card } = require("./../models/userAux");
 const bcrypt = require("bcrypt"), salt = 15, password = "123456";
@@ -114,6 +115,7 @@ exports.disableUser = async (req, res) => {
     }
 }
 
+
 // Disable A Virtual Card 
 exports.disableCard = async (req, res) => {
 
@@ -136,5 +138,23 @@ exports.disableCard = async (req, res) => {
         res.status(200).send({ message : "Card Successfully Disabled!" });
     } catch (error) {
         res.status(400).send({ message: "Could Not Disable Card" });
+    }
+}
+
+
+// Remove An Admin
+exports.removeAdmin = async ( req, res ) => {
+    const admins = await Admin.findOne({ _id : req.params.admin_id });
+    const currAdmin = await Admin.findOne({ _id: req.ADMIN_ID });
+
+    if (!currAdmin.adminAccess) return res.status(400).send({ message: "Admin Not Authorized!" });
+    
+    if (!admins) return res.status(404).send({ message: "Admin Not Found!" });
+    
+    try {
+        admins.remove();
+        res.status(200).send({ message: "Admin Deleted Successfully!" })
+    } catch (error) {
+        res.status(400).send({ message: "Could Not Delete Admin!", err: error })
     }
 }
