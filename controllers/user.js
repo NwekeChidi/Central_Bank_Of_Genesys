@@ -94,12 +94,29 @@ exports.transfer =  async (req, res) => {
         
         new_transfer.account_balance = user.account_balance;
         new_transfer.account_number = user.account_number.substring(0, 3)+"xxxx"+user.account_number.substring(7, 10);
-        res.status(200).send({ message : "Transaction Successful!", data : new_transfer })
+        res.status(200).send({ message : "Transfer Successful!", data : new_transfer })
     
     } catch (error) {
+        res.status(400).send({ message:"Transfer Unsuccessful!", err:error })
+    }
+}
+
+
+// See A List Of Transactions
+
+exports.getTransactions = async ( req, res ) => {
+    const user = await User.findOne({ _id : req.USER_ID });
+    if (!user) return res.status(400).send({ message: "User Not Found!" });
+
+    try {
+        const transactions = user.transactions;
+        if (!transactions) return res.status(400).send({ message: "Transactions Not Found!" });
+        if (transactions.length <= 0) return res.status(200).send({ message : "You Have Not Made Any Transactions Yet!" });
+
+        res.status(200).send({ message: "Transactions", data : transactions });
+    } catch (error) {
         console.log(error)
-        if (error.errors.transaction_type) return res.status(400).send({ message : "Invalid Value For Type Of Transaction!"})
-        res.status(400).send({ message:"Transaction Unsuccessful!", err:error })
+        res.status(400).send({ message : "Unable To Get Transactions"})
     }
 }
 
