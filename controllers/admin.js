@@ -91,3 +91,25 @@ exports.reverse = async ( req, res ) => {
         res.status(400).send({message: "Unable To Reverse Transaction", err: error})
     }
 }
+
+
+// Disable A User 
+exports.disableUser = async (req, res) => {
+
+    const user = await User.findById({ _id : req.params.user_id });
+    if (!user) return res.status(400).send({ message: "User Not Found" });
+
+    try {
+        user.is_active = false;
+
+        const updatedUser = await User.findOneAndUpdate(
+            { _id : user._id },
+            { $set : user })
+
+        if (!updatedUser) return res.status(400).send({ message: "Could Not Update Account"});
+
+        res.status(200).send({ message : "User Successfully Disabled!" });
+    } catch (error) {
+        res.status(400).send({ message: "Could Not Disable User" });
+    }
+}

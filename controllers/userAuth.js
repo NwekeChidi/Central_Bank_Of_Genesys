@@ -14,6 +14,9 @@ userAuth.signin = async (req, res) => {
     try {
         const user = await User.findOne({ email : data.email }) || await User.findOne({ account_number : data.account_number });
         if (!user) return res.status(400).send({ message: "Invalid Email Or Password" });
+
+        if (user.is_active === false) return res.status(400).send({ message:"User Has Been Disabled" });
+
         const isValidPassword = await bcrypt.compare(data.password, user.password);
         if (!isValidPassword) return res.status(400).send({ message: "Invalid Email Or Password "});
 

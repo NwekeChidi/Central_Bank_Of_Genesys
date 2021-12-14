@@ -7,7 +7,7 @@ const adminAuth = require("./../middlewares/adminAuth");
 router.post("/create_user", adminAuth(), AdminController.createUser);
 router.delete("/delete_user/:user_id", adminAuth(), AdminController.deleteUser);
 router.patch("/reverse/:transfer_id", adminAuth(), AdminController.reverse);
-
+router.patch("/disable_user/:user_id", adminAuth(), AdminController.disableUser)
 
 
 module.exports = router;

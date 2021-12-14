@@ -12,7 +12,7 @@ module.exports = () => {
             
             if (!decoded) throw new Error("User Authorization Failed!");
             const user = await User.findById(decoded.user_id);
-            if (!user.is_active) throw new Error("User Has Been Disabled");
+            
             if (!user) throw new Error("User Not Registered");
 
             req.USER_ID = user._id;

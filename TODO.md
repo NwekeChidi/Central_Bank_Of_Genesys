@@ -20,7 +20,7 @@
 ✅ Implement User Function : Transfer Funds To Other Users
 ✅ Implement User Function : See A List Of Their Transactions
 ✅ Implement Admin Function : Reverse Transactions (Transfer Only)
-- Implement Admin Function : Disable A User's Account
+✅ Implement Admin Function : Disable A User's Account
 
 ### Secondary
 ✅ Define Schema For Virtual Cards ( Credit/Debit : Master, Dollar, Crypty, Visa and Verve )
