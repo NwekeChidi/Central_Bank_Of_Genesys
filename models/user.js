@@ -63,6 +63,10 @@ const userSchema = new Schema({
         type : Array,
         default : [] 
     },
+    is_active : {
+        type : Boolean,
+        default : true
+    },
     loan : {
         legible : {
             type : String,

@@ -4,9 +4,9 @@ const { Schema } = mongoose;
 const date = require("date-and-time");
 const now = new Date();
 
-// Deposit model
-const Deposit = mongoose.model("deposit", new Schema({
-    
+
+// Withdrawal Model
+const BaseTransactions = mongoose.model("base_transactions", new Schema({
     user : {
         type : Schema.Types.ObjectId,
         ref : "user"
@@ -14,9 +14,12 @@ const Deposit = mongoose.model("deposit", new Schema({
     account_number : {
         type : String
     },
-    transcation_type : {
+    transaction_type : {
         type : String,
-        default : "deposit"
+        enum : ["deposit", "withdrawal"],
+        trim : true,
+        lowercase : true,
+        required : true
     },
     amount : {
         type : Number,
@@ -24,28 +27,6 @@ const Deposit = mongoose.model("deposit", new Schema({
     },
     account_balance : {
         type : Number
-    },
-},
-{
-    timestamps : {
-        createdAt : "created_at"
-    }
-}));
-
-
-// Withdrawal Model
-const Withdrawal = mongoose.model("withrawal", new Schema({
-    user : {
-        type : Schema.Types.ObjectId,
-        ref : "user"
-    },
-    transcation_type : {
-        type : String,
-        default : "withdrawal"
-    },
-    amount : {
-        type : String,
-        required : true
     }
 },
 {
@@ -61,6 +42,9 @@ const Transfer = mongoose.model("transfer", new Schema({
         type : Schema.Types.ObjectId,
         ref : "user"
     },
+    account_number : {
+        type : String
+    },
     reciever_acc_no : {
         type : Number,
         required : true
@@ -72,6 +56,7 @@ const Transfer = mongoose.model("transfer", new Schema({
     transcation_type : {
         type : String,
         enum : ["CR", "DR", "RVSL"],
+        required : true,
         trim : true
     },
     amount : {
@@ -80,6 +65,9 @@ const Transfer = mongoose.model("transfer", new Schema({
     },
     narration : {
         type : String
+    },
+    account_balance : {
+        type : Number
     }
 },
 {
@@ -89,15 +77,19 @@ const Transfer = mongoose.model("transfer", new Schema({
 }));
 
 
-// Debit Card Model
-const DebitCard = mongoose.model("debit_card", new Schema({
+
+// Card Model
+const Card = mongoose.model("card", new Schema({
     user : {
         type : Schema.Types.ObjectId,
         ref : "user"
     },
     card_iss : {
         type : String,
-        default : "debit"
+        enum : ["debit", "credit"],
+        lowercase : true,
+        required : true,
+        trim : true
     },
     card_type : {
         type : String,
@@ -105,31 +97,10 @@ const DebitCard = mongoose.model("debit_card", new Schema({
         default : "verve",
         lowercase : true,
         trim : true
-    }
-},
-{
-    timestamps : {
-        createdAt : "created_at"
-    }
-}));
-
-
-// Credit Card Model
-const CreditCard = mongoose.model("credit_card", new Schema({
-    user : {
-        type : Schema.Types.ObjectId,
-        ref : "user"
     },
-    card_iss : {
-        type : String,
-        default : "credit"
-    },
-    card_type : {
-        type : String,
-        enum : ["visa", "verve", "mastercard", "crypty", "dollar"],
-        default : "verve",
-        lowercase : true,
-        trim : true
+    is_active : {
+        type : Boolean,
+        default : true
     },
     credit_points : {
         type : Number,
@@ -174,10 +145,8 @@ const Loan = mongoose.model("loan", new Schema({
 }));
 
 module.exports = {
-    Deposit,
-    Withdrawal,
-    CreditCard,
-    DebitCard,
+    BaseTransactions,
+    Card,
     Loan,
     Transfer
 }
