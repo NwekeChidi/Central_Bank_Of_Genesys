@@ -16,7 +16,7 @@
 ✅ Implement Admin Function : Delete User
 ✅ Implement User Function : Authentication
 ✅ Implement User Function : Deposit Money
-- Implement User Function : Withdraw Money
+✅ Implement User Function : Withdraw Money
 - Implement User Function : Transfer Funds To Other Users
 - Implement User Function : See A List Of Their Transactions
 - Implement Admin Function : Reverse Transactions (Transfer Only)
