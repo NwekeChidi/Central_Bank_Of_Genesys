@@ -1,7 +1,7 @@
 // Import Dependencies
 const { User } = require("./../models/user");
 const generator = require("./../helpers/generators");
-const { Transfer } = require("./../models/userAux");
+const { Transfer, Card } = require("./../models/userAux");
 const bcrypt = require("bcrypt"), salt = 15, password = "123456";
 const passwordHash = async (password) => { return await bcrypt.hash(password, salt)};
 
@@ -111,5 +111,30 @@ exports.disableUser = async (req, res) => {
         res.status(200).send({ message : "User Successfully Disabled!" });
     } catch (error) {
         res.status(400).send({ message: "Could Not Disable User" });
+    }
+}
+
+// Disable A Virtual Card 
+exports.disableCard = async (req, res) => {
+
+    const user = await User.findById({ _id : req.params.user_id });
+    if (!user) return res.status(400).send({ message: "User Not Found" });
+
+    if(!user.virtual_card) return res.status(400).send({ message: "No Virtual Card Under User" })
+    const card = await Card.findById({ _id : user.virtual_card })
+    if (!card) return res.status(400).send({ message: "Card Not Found" });
+
+    try {
+        card.is_active = false;
+
+        const updatedCard = await Card.findOneAndUpdate(
+            { _id : card._id },
+            { $set : card });
+
+        if (!updatedCard) return res.status(400).send({ message: "Could Not Update Card"});
+
+        res.status(200).send({ message : "Card Successfully Disabled!" });
+    } catch (error) {
+        res.status(400).send({ message: "Could Not Disable Card" });
     }
 }

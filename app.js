@@ -24,12 +24,10 @@ process.on('unhandledRejection', err => {
 });
 
 
-// Admin Routes
-app.use("/admin", require("./routes/adminAuth"));
+// Admin Route
 app.use("/admin", require("./routes/admin"));
 
-// User Routes
-app.use("/user", require("./routes/userAuth"));
+// User Route
 app.use("/user", require("./routes/user"))
 
 

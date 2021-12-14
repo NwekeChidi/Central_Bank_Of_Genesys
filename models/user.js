@@ -67,16 +67,6 @@ const userSchema = new Schema({
         type : Boolean,
         default : true
     },
-    loan : {
-        legible : {
-            type : String,
-            default : "No"
-        },
-        loans : {
-            type : Schema.Types.ObjectId,
-            ref : "loan"
-        }
-    },
     password : {
         type : String
     },

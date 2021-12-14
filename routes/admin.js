@@ -1,13 +1,25 @@
 // Import Dependencies
 const router = require("express").Router();
 const AdminController = require("./../controllers/admin");
-const adminAuth = require("./../middlewares/adminAuth");
+const auth = require("../middlewares/auth");
+const AuthController = require("./../authentication/adminAuth");
+const { check } = require("express-validator");
 
-// Admin Routers
-router.post("/create_user", adminAuth(), AdminController.createUser);
-router.delete("/delete_user/:user_id", adminAuth(), AdminController.deleteUser);
-router.patch("/reverse/:transfer_id", adminAuth(), AdminController.reverse);
-router.patch("/disable_user/:user_id", adminAuth(), AdminController.disableUser)
+// Auth Routes
+router.post("/signup", [
+    check("email", "Please Provide A Valid Email!").isEmail(),
+    check("password", "Password Must Be At Least 6 Characters!").isLength({
+        min: 6
+    })
+], AuthController.signup);
+router.post("/signin", AuthController.signin);
+
+// Admin Routes
+router.post("/create_user", auth.adminAuth(), AdminController.createUser);
+router.delete("/delete_user/:user_id", auth.adminAuth(), AdminController.deleteUser);
+router.patch("/reverse/:transfer_id", auth.adminAuth(), AdminController.reverse);
+router.patch("/disable_user/:user_id", auth.adminAuth(), AdminController.disableUser);
+router.put("/disable_card/:user_id", auth.adminAuth(), AdminController.disableCard);
 
 
 module.exports = router;
