@@ -7,7 +7,7 @@ const {
     Transfer } = require("./../models/userAux");
 
 
-// Deposit Money
+// Deposit / Withdraw Money
 exports.base_transactions =  async (req, res) => {
     const data = req.body;
 
@@ -41,6 +41,63 @@ exports.base_transactions =  async (req, res) => {
         base_transaction.account_number = user.account_number.substring(0, 3)+"xxxx"+user.account_number.substring(7, 10);
         res.status(200).send({ message : "Transaction Successful!", data : base_transaction })
     } catch (error) {
+        if (error.errors.transaction_type) return res.status(400).send({ message : "Invalid Value For Type Of Transaction!"})
+        res.status(400).send({ message:"Transaction Unsuccessful!", err:error })
+    }
+}
+
+
+// Transfer Money
+exports.transfer =  async (req, res) => {
+    const data = req.body;
+
+    const user = await User.findOne({ _id: req.USER_ID });
+    if (!user) return res.status(400).send({ message: "User Not Found" });
+    
+    const reciever = await User.findOne({ account_number: data.reciever_acc_no });
+    if (!reciever) return res.status(400).send({ message : "Invalid Reciever's Account Number!" });
+    
+    if (user.account_balance < data.amount) return res.status(200).send({ message : "Insufficient Funds!" })
+    
+    try {
+
+        const new_transfer = await new Transfer({
+            user : req.USER_ID,
+            amount : data.amount,
+            reciever_name : reciever.fullName,
+            reciever_acc_no : data.reciever_acc_no,
+            reciever_bank : data.reciever_bank,
+            transaction_type : "T-DR",
+            narration : data.narration || "N/A"
+        }).save();
+
+        user.account_balance -= new_transfer.amount;
+        user.transactions.push(new_transfer);
+
+        const reciever_data = await new Transfer({
+            sender : user.fullName,
+            amount : data.amount,
+            transaction_type : "T-CR",
+            narration : new_transfer.narration
+        })
+        reciever.account_balance += new_transfer.amount;
+        reciever.transactions.push(reciever_data);
+
+        const updatedUser = await User.findOneAndUpdate(
+            { _id : req.USER_ID },
+            { $set : user }), updatedReciever = await User.findOneAndUpdate(
+                { account_number : data.reciever_acc_no },
+                { $set : reciever });
+
+
+        if (!updatedUser || !updatedReciever ) return res.status(400).send({ message : "Could Not Update Account"});
+        
+        new_transfer.account_balance = user.account_balance;
+        new_transfer.account_number = user.account_number.substring(0, 3)+"xxxx"+user.account_number.substring(7, 10);
+        res.status(200).send({ message : "Transaction Successful!", data : new_transfer })
+    
+    } catch (error) {
+        console.log(error)
         if (error.errors.transaction_type) return res.status(400).send({ message : "Invalid Value For Type Of Transaction!"})
         res.status(400).send({ message:"Transaction Unsuccessful!", err:error })
     }

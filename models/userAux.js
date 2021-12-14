@@ -42,7 +42,13 @@ const Transfer = mongoose.model("transfer", new Schema({
         type : Schema.Types.ObjectId,
         ref : "user"
     },
+    sender : {
+        type : String
+    },
     account_number : {
+        type : String
+    },
+    reciever_name : {
         type : String
     },
     reciever_acc_no : {
@@ -53,14 +59,13 @@ const Transfer = mongoose.model("transfer", new Schema({
         type : String,
         required : true
     },
-    transcation_type : {
+    transaction_type : {
         type : String,
-        enum : ["CR", "DR", "RVSL"],
-        required : true,
+        enum : ["T-CR", "T-DR", "RVSL"],
         trim : true
     },
     amount : {
-        type : String,
+        type : Number,
         required : true
     },
     narration : {
