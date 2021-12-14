@@ -42,6 +42,10 @@ const Transfer = mongoose.model("transfer", new Schema({
         type : Schema.Types.ObjectId,
         ref : "user"
     },
+    admin : {
+        type : Schema.Types.ObjectId,
+        ref : "admin"
+    },
     sender : {
         type : String
     },
@@ -106,6 +110,9 @@ const Card = mongoose.model("card", new Schema({
     is_active : {
         type : Boolean,
         default : true
+    },
+    card_number : {
+        type : String
     },
     credit_points : {
         type : Number,

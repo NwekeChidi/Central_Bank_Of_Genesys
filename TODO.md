@@ -19,7 +19,7 @@
 ✅ Implement User Function : Withdraw Money
 ✅ Implement User Function : Transfer Funds To Other Users
 ✅ Implement User Function : See A List Of Their Transactions
-- Implement Admin Function : Reverse Transactions (Transfer Only)
+✅ Implement Admin Function : Reverse Transactions (Transfer Only)
 - Implement Admin Function : Disable A User's Account
 
 ### Secondary
@@ -28,13 +28,10 @@
 - Implement User Function : Get A Virtual Card
 - Implement User Function : Get A Loan
 - Implement User Function : Disable Virtual Card
-- Implement User Function : Accept Funds From Other Users
-- Implement Admin Function : Issue A Virtual Card
-- Implement Admin Function : Issue A Loan
 - Implement Admin Function : Disable Virtual Card
 - Implement Admin Function : Remove An Admin
 
 
 ## Part C ( SECONDARY )
 - Build UI
-- Build All Parts With Testing
+- Testing
