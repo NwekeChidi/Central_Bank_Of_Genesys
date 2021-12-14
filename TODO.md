@@ -27,7 +27,7 @@
 ✅ Define Schema For Loans
 ✅ Implement User Function : Get A Virtual Card
 ✅ Implement User Function : Disable Virtual Card
-- Implement Admin Function : Disable Virtual Card
+✅ Implement Admin Function : Disable Virtual Card
 - Implement Admin Function : Remove An Admin
 
 
