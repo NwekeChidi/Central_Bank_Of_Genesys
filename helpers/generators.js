@@ -28,5 +28,6 @@ exports.card_number = (card_type) => {
 }
 
 exports.cvv = () => {
+    const len = String(Date.now()).length, rand = String(Date.now());
     return "7" + rand.substring(len-2, len);
 }
