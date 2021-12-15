@@ -28,12 +28,7 @@ process.on('unhandledRejection', err => {
 app.use("/admin", require("./routes/admin"));
 
 // User Route
-app.use("/user", require("./routes/user"))
-
-
-
-
-
+app.use("/user", require("./routes/user"));
 
 
 // Route Ping
