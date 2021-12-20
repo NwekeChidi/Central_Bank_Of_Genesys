@@ -37,6 +37,10 @@ app.get("/ping", async (req, res) => {
     count++;
     res.status(200).send(`Server Has Recieved ${count} Pings Since Server It Started`);
 })
+
+app.get("/", async (req, res) => {
+    res.status(200).send("Welcome To Central Bank Of Learnable!")
+})
 // Route 404
 app.use("**", async (req, res) => {
     res.status(404).send("Route Not Found!");
