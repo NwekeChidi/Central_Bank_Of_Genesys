@@ -1,10 +1,11 @@
 {
   "name": "central_bank_of_genesys",
   "version": "1.0.0",
-  "description": "The Standardization Test For The Genesys Learnable '21",
+  "description": "The Standardization Test For The Genesys Learnable '21 hosted on Heroku",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js || node ."
   },
   "author": "Nweke Chidimma Dominic",
   "license": "ISC",
