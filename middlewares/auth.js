@@ -1,5 +1,6 @@
 // Import dependencies
-const { Admin, User } = require("../models/admin");
+const { Admin } = require("../models/admin");
+const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 exports.adminAuth = () => {
