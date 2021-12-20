@@ -1,7 +1,7 @@
 // Import Dependencies
 const { User } = require("./../models/user");
 const generator = require("./../helpers/generators");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt"), salt = 10;
 const { 
     BaseTransactions,
     Card,
@@ -44,6 +44,7 @@ exports.base_transactions =  async (req, res) => {
         base_transaction.account_number = user.account_number.substring(0, 3)+"xxxx"+user.account_number.substring(7, 10);
         res.status(200).send({ message : "Transaction Successful!", data : base_transaction })
     } catch (error) {
+        console.log(error)
         if (error.errors.transaction_type) return res.status(400).send({ message : "Invalid Value For Type Of Transaction!"})
         res.status(400).send({ message:"Transaction Unsuccessful!", err:error })
     }
@@ -135,8 +136,7 @@ exports.getCard = async ( req, res ) => {
     if (cards.is_active) return res.status(400).send({ message: "You Already Have An Active Card" });
 
     if (data.password.length != 4 ) return res.status(401).send({ message : "Password Should Be Only Numbers And Must Be Four In Length!" });
-    const salt = 10;
-    const passwordHash = async (password) => { return await bcrypt.hash(password, salt)};
+    const hashedPassword = await bcrypt.hash(data.password, salt);
     
     try {
         const newCard = await new Card({
@@ -146,7 +146,7 @@ exports.getCard = async ( req, res ) => {
             credit_points : data.credit_points || null,
             card_number : generator.card_number(data.card_type),
             cvv : generator.cvv(),
-            password : await passwordHash(data.password)
+            password : hashedPassword
         }).save();
 
         user.virtual_card = newCard._id;
@@ -186,5 +186,35 @@ exports.disableCard = async (req, res) => {
         res.status(200).send({ message : "Card Successfully Disabled!" });
     } catch (error) {
         res.status(400).send({ message: "Could Not Disable Card" });
+    }
+}
+
+
+// Change Password
+exports.change_password = async (req, res) => {
+
+    const data = req.body;
+    const user = await User.findById({ _id : req.USER_ID });
+    if (!user) return res.status(400).send({ message: "User Not Found" });
+
+    const isValidPassword = await bcrypt.compare(data.old_password, user.password);
+    if (!isValidPassword) return res.status(400).send({ message: "Old Password Incorrect!"});
+
+    if (data._new_password !== data.confirm_password ) return res.status(400).send({ message : "Passwords Do Not Match"});
+    const newHashedPassword = await bcrypt.hash(data.new_password);
+
+    try {
+        
+        user.password = newHashedPassword;
+
+        const updatedUser = await User.findOneAndUpdate(
+            { _id : user._id },
+            { $set : user });
+
+        if (!updatedUser) return res.status(400).send({ message : "Could Not Update Account" });
+
+        res.status(200).send({ message : "Password Changed Successfully!" });
+    } catch (error) {
+        res.status(400).send({ message : "Could Not Change Password!", err:error })
     }
 }

@@ -13,6 +13,7 @@ router.patch("/transfer", auth.userAuth(), UserController.transfer);
 router.get("/history", auth.userAuth(), UserController.getTransactions);
 router.patch("/get_card", auth.userAuth(), UserController.getCard);
 router.put("/disable", auth.userAuth(), UserController.disableCard);
+router.put("/change_password", auth.userAuth(), UserController.change_password);
 
 
 

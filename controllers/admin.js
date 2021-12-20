@@ -4,12 +4,12 @@ const { Admin } = require("./../models/admin");
 const generator = require("./../helpers/generators");
 const { Transfer, Card } = require("./../models/userAux");
 const bcrypt = require("bcrypt"), salt = 15, password = "123456";
-const passwordHash = async (password) => { return await bcrypt.hash(password, salt)};
 
 
 // Create User
 exports.createUser = async (req, res) => {
     const data = req.body;
+    const passwordHash = await bcrypt.hash(password, salt);
 
     try {
         const newUser = await new User({
@@ -27,7 +27,7 @@ exports.createUser = async (req, res) => {
             account_number : generator.account_number(),
             account_balance : data.account_balance || 0.00,
             account_manager : req.ADMIN_ID,
-            password : await passwordHash(password)
+            password : passwordHash
         }).save();
     
         res.status(200).send({ message: "User Successfully Created!", data: newUser });
@@ -156,5 +156,28 @@ exports.removeAdmin = async ( req, res ) => {
         res.status(200).send({ message: "Admin Deleted Successfully!" })
     } catch (error) {
         res.status(400).send({ message: "Could Not Delete Admin!", err: error })
+    }
+}
+
+
+// Reactivate A User 
+exports.reactivateUser = async (req, res) => {
+
+    const user = await User.findById({ _id : req.params.user_id });
+    if (!user) return res.status(400).send({ message: "User Not Found" });
+
+    try {
+        if (user.is_active == false) user.is_active = true;
+        else return res.status(400).send({ message: "User Is Already Active!"});
+
+        const updatedUser = await User.findOneAndUpdate(
+            { _id : user._id },
+            { $set : user })
+
+        if (!updatedUser) return res.status(400).send({ message: "Could Not Update Account"});
+
+        res.status(200).send({ message : "User Successfully Disabled!" });
+    } catch (error) {
+        res.status(400).send({ message: "Could Not Disable User" });
     }
 }

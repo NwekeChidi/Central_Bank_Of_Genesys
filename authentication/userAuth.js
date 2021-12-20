@@ -20,7 +20,7 @@ userAuth.signin = async (req, res) => {
         const isValidPassword = await bcrypt.compare(data.password, user.password);
         if (!isValidPassword) return res.status(400).send({ message: "Invalid Email Or Password "});
 
-        const token = jwt.sign({ user_id: user._id }, JWT_SECRET_KEY, { expiresIn: 60*5 });
+        const token = jwt.sign({ user_id: user._id }, JWT_SECRET_KEY);
 
         res.status(200).send({
             message: `Hello ${user.fullName}! \n Welcome To Your Dashboard Of Central Bank Of Genesys (CBG)`,

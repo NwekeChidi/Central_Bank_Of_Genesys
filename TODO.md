@@ -28,9 +28,10 @@
 ✅ Implement User Function : Get A Virtual Card
 ✅ Implement User Function : Disable Virtual Card
 ✅ Implement Admin Function : Disable Virtual Card
-✅ Implement Admin Function : Remove An Admin
+✅ Implement Admin Function : Remove An Admin ( Authorized Admins Only )
+✅ Implement User Function : Change Password
+✅ Implement Admin Function : Reactivate A User
 
 
 ## Part C ( SECONDARY )
-- Build UI
-- Testing
+- Writing Tests

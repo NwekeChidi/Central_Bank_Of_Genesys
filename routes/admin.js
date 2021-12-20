@@ -21,6 +21,6 @@ router.patch("/reverse/:transfer_id", auth.adminAuth(), AdminController.reverse)
 router.patch("/disable_user/:user_id", auth.adminAuth(), AdminController.disableUser);
 router.put("/disable_card/:user_id", auth.adminAuth(), AdminController.disableCard);
 router.delete("/remove_admin/:admin_id", auth.adminAuth(), AdminController.removeAdmin);
-
+router.patch("/reactivate_user/:user_id", auth.adminAuth(), AdminController.reactivateUser);
 
 module.exports = router;
